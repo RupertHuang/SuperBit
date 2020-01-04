@@ -151,6 +151,60 @@ namespace CrocoKit_Sensor {
         return 0;
     }
 
+    //% blockId=CrocoKit_Sensor_Ultrasonic block="Ultrasonic|Trig %Trig|Echo %Echo"
+    //% color="#228B22"
+    //% weight=97
+    //% blockGap=20
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
+    export function Ultrasonic(Trig: DigitalPin, Echo: DigitalPin): number {
+        //send pulse
+        pins.setPull(Trig, PinPullMode.PullNone);
+        pins.digitalWritePin(Trig, 0);
+        control.waitMicros(2);
+        pins.digitalWritePin(Trig, 1);
+        control.waitMicros(10);
+        pins.digitalWritePin(Trig, 0);
+
+        //read pulse, maximum distance=500cm
+        const d = pins.pulseIn(Echo, PulseValue.High, 500 * 58);
+
+        return Math.idiv(d, 58);
+    }
+
+
+    //% blockId=CrocoKit_Sensor_IR block="IR|pin %pin|value %value"
+    //% weight=96
+    //% blockGap=20
+    //% color="#228B22"
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
+    export function IR(pin: DigitalPin, value: enObstacle): boolean {
+        pins.setPull(pin, PinPullMode.PullUp);
+        return pins.digitalReadPin(pin) == value;
+    }
+
+    //% blockId=CrocoKit_Sensor_Vibration block="Vibration|pin %pin|get "
+    //% weight=95
+    //% blockGap=20
+    //% color="#228B22"
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
+    export function Vibration(pin: DigitalPin, handle: () => void): void {
+        pins.setPull(pin, PinPullMode.PullUp);
+        pins.setEvents(pin, PinEventType.Pulse);
+        pins.onPulsed(pin, PulseValue.High, handle);
+    }
+
+    //% blockId=CrocoKit_Sensor_Hall block="Hall|pin %pin|get "
+    //% weight=94
+    //% blockGap=20
+    //% color="#228B22"
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=5
+    export function Hall(pin: DigitalPin, handle: () => void): void {
+        pins.setPull(pin, PinPullMode.PullUp);
+        pins.setEvents(pin, PinEventType.Pulse);
+        pins.onPulsed(pin, PulseValue.High, handle);
+
+    }
+}
 
 //% color="#ECA40D" weight=20 icon="\uf085"
 namespace SuperBit {
