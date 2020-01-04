@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (C): 2010-2019, Shenzhen Yahboom Tech
-modified from liusen
+Copyright (C): 2010-2019, SevenCode
+modified from Rupert
 load dependency
 "SuperBit": "file:../pxt-Superbit"
 */
